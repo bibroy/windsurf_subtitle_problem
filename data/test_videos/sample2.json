@@ -1,0 +1,112 @@
+{
+    "filename": "sample2.mp4",
+    "metadata": {
+        "duration": 30.0,
+        "width": 1280,
+        "height": 720,
+        "fps": 30,
+        "audio_channels": 2,
+        "audio_sample_rate": 44100,
+        "languages": ["en-US", "es-ES"]
+    },
+    "scenes": [
+        {
+            "start_time": 0.0,
+            "end_time": 7.5,
+            "text_overlays": [
+                {
+                    "text": "Multilingual Presentation",
+                    "position": {"x": 640, "y": 50},
+                    "duration": 5.0
+                }
+            ],
+            "speech_segments": [
+                {
+                    "start_time": 1.0,
+                    "end_time": 3.5,
+                    "speaker": "Speaker 1",
+                    "text": "Hello and welcome everyone!",
+                    "language": "en-US"
+                },
+                {
+                    "start_time": 4.0,
+                    "end_time": 6.5,
+                    "speaker": "Speaker 2",
+                    "text": "¡Hola y bienvenidos a todos!",
+                    "language": "es-ES"
+                }
+            ]
+        },
+        {
+            "start_time": 7.5,
+            "end_time": 15.0,
+            "text_overlays": [],
+            "speech_segments": [
+                {
+                    "start_time": 8.0,
+                    "end_time": 11.0,
+                    "speaker": "Speaker 1",
+                    "text": "Today we'll demonstrate multilingual support.",
+                    "language": "en-US"
+                },
+                {
+                    "start_time": 11.5,
+                    "end_time": 14.5,
+                    "speaker": "Speaker 2",
+                    "text": "Hoy demostraremos el soporte multilingüe.",
+                    "language": "es-ES"
+                }
+            ]
+        },
+        {
+            "start_time": 15.0,
+            "end_time": 22.5,
+            "background_noise": "moderate",
+            "text_overlays": [
+                {
+                    "text": "Feature Demo",
+                    "position": {"x": 640, "y": 360},
+                    "duration": 3.0
+                }
+            ],
+            "speech_segments": [
+                {
+                    "start_time": 16.0,
+                    "end_time": 18.5,
+                    "speaker": "Speaker 3",
+                    "text": "Let me show you how it works.",
+                    "language": "en-US"
+                },
+                {
+                    "start_time": 19.0,
+                    "end_time": 21.5,
+                    "speaker": "Speaker 4",
+                    "text": "Déjame mostrarte cómo funciona.",
+                    "language": "es-ES"
+                }
+            ]
+        },
+        {
+            "start_time": 22.5,
+            "end_time": 30.0,
+            "background_noise": "high",
+            "text_overlays": [],
+            "speech_segments": [
+                {
+                    "start_time": 23.0,
+                    "end_time": 25.5,
+                    "speaker": "Speaker 3",
+                    "text": "The system handles multiple speakers and languages.",
+                    "language": "en-US"
+                },
+                {
+                    "start_time": 26.0,
+                    "end_time": 29.0,
+                    "speaker": "Speaker 4",
+                    "text": "El sistema maneja múltiples hablantes e idiomas.",
+                    "language": "es-ES"
+                }
+            ]
+        }
+    ]
+}

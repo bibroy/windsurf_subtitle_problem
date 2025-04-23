@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subtitle Enhancement System</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <div id="app" class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+                <h1 class="text-2xl font-semibold text-gray-900">Subtitle Enhancement System</h1>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <div class="bg-white shadow rounded-lg p-6">
+                <!-- File Upload Section -->
+                <div class="space-y-6">
+                    <div>
+                        <h2 class="text-lg font-medium text-gray-900">Process Subtitles</h2>
+                        <p class="mt-1 text-sm text-gray-500">Upload your subtitle file and optional video for enhanced processing.</p>
+                    </div>
+
+                    <!-- Upload Form -->
+                    <form @submit.prevent="processFiles" class="space-y-6">
+                        <!-- Subtitle File Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Subtitle File (VTT)</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500">
+                                            <span>Upload subtitle file</span>
+                                            <input type="file" class="sr-only" @change="onSubtitleFileChange" accept=".vtt">
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500" v-if="subtitleFile">
+                                        Selected: {{ subtitleFile.name }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Video File Upload (Optional) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Video File (Optional)</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                        <path d="M15 8h18a4 4 0 014 4v20m0 0l-6-6m6 6l-6 6m6-6H3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500">
+                                            <span>Upload video file</span>
+                                            <input type="file" class="sr-only" @change="onVideoFileChange" accept="video/*">
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500" v-if="videoFile">
+                                        Selected: {{ videoFile.name }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Processing Options -->
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-medium text-gray-900">Processing Options</h3>
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" v-model="options.grammar" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label class="ml-2 text-sm text-gray-700">Grammar and Spelling Correction</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" v-model="options.positioning" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label class="ml-2 text-sm text-gray-700">Optimize Subtitle Positioning</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" v-model="options.timing" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label class="ml-2 text-sm text-gray-700">Adjust Timing</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div>
+                            <button type="submit" :disabled="!subtitleFile" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                                Process Subtitles
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Processing Status -->
+                    <div v-if="processing" class="mt-6">
+                        <div class="flex items-center">
+                            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600"></div>
+                            <span class="ml-2 text-sm text-gray-700">Processing...</span>
+                        </div>
+                        <div class="mt-2">
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="bg-indigo-600 rounded-full h-2 transition-all duration-500" :style="{ width: progress + '%' }"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Result -->
+                    <div v-if="result" class="mt-6">
+                        <div class="rounded-md bg-green-50 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-green-800">Processing Complete</h3>
+                                    <div class="mt-2 text-sm text-green-700">
+                                        <p>Your enhanced subtitle file is ready for download.</p>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="-mx-2 -my-1.5 flex">
+                                            <button @click="downloadResult" class="bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600">
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Vue.js Application Code -->
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    subtitleFile: null,
+                    videoFile: null,
+                    options: {
+                        grammar: true,
+                        positioning: true,
+                        timing: true
+                    },
+                    processing: false,
+                    progress: 0,
+                    result: null
+                }
+            },
+            methods: {
+                onSubtitleFileChange(event) {
+                    this.subtitleFile = event.target.files[0]
+                },
+                onVideoFileChange(event) {
+                    this.videoFile = event.target.files[0]
+                },
+                async processFiles() {
+                    if (!this.subtitleFile) return
+
+                    this.processing = true
+                    this.progress = 0
+                    this.result = null
+
+                    const formData = new FormData()
+                    formData.append('subtitle_file', this.subtitleFile)
+                    if (this.videoFile) {
+                        formData.append('video_file', this.videoFile)
+                    }
+
+                    try {
+                        // Simulate progress
+                        const progressInterval = setInterval(() => {
+                            if (this.progress < 90) {
+                                this.progress += 10
+                            }
+                        }, 500)
+
+                        const response = await fetch('/api/process-subtitle', {
+                            method: 'POST',
+                            body: formData
+                        })
+
+                        clearInterval(progressInterval)
+                        this.progress = 100
+
+                        if (response.ok) {
+                            const blob = await response.blob()
+                            this.result = {
+                                blob,
+                                filename: this.subtitleFile.name.replace('.vtt', '_enhanced.vtt')
+                            }
+                        } else {
+                            throw new Error('Processing failed')
+                        }
+                    } catch (error) {
+                        console.error('Error:', error)
+                        alert('An error occurred while processing the files.')
+                    } finally {
+                        this.processing = false
+                    }
+                },
+                downloadResult() {
+                    if (!this.result) return
+
+                    const url = window.URL.createObjectURL(this.result.blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = this.result.filename
+                    document.body.appendChild(a)
+                    a.click()
+                    window.URL.revokeObjectURL(url)
+                    document.body.removeChild(a)
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

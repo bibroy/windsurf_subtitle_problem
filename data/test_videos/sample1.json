@@ -1,0 +1,77 @@
+{
+    "filename": "sample1.mp4",
+    "metadata": {
+        "duration": 20.0,
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "audio_channels": 2,
+        "audio_sample_rate": 44100
+    },
+    "scenes": [
+        {
+            "start_time": 0.0,
+            "end_time": 5.0,
+            "text_overlays": [
+                {
+                    "text": "Introduction",
+                    "position": {"x": 960, "y": 100},
+                    "duration": 3.0
+                }
+            ],
+            "speech_segments": [
+                {
+                    "start_time": 1.0,
+                    "end_time": 4.0,
+                    "speaker": "Speaker 1",
+                    "text": "Welcome to this demonstration video."
+                }
+            ]
+        },
+        {
+            "start_time": 5.0,
+            "end_time": 10.0,
+            "text_overlays": [],
+            "speech_segments": [
+                {
+                    "start_time": 6.0,
+                    "end_time": 9.0,
+                    "speaker": "Speaker 1",
+                    "text": "Today we'll be looking at subtitle processing."
+                }
+            ]
+        },
+        {
+            "start_time": 10.0,
+            "end_time": 15.0,
+            "text_overlays": [
+                {
+                    "text": "Key Features",
+                    "position": {"x": 960, "y": 540},
+                    "duration": 4.0
+                }
+            ],
+            "speech_segments": [
+                {
+                    "start_time": 11.0,
+                    "end_time": 14.0,
+                    "speaker": "Speaker 2",
+                    "text": "Let me show you the main features of our system."
+                }
+            ]
+        },
+        {
+            "start_time": 15.0,
+            "end_time": 20.0,
+            "text_overlays": [],
+            "speech_segments": [
+                {
+                    "start_time": 16.0,
+                    "end_time": 19.0,
+                    "speaker": "Speaker 2",
+                    "text": "These include automatic positioning and timing corrections."
+                }
+            ]
+        }
+    ]
+}
